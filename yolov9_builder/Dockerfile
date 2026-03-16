@@ -1,3 +1,6 @@
+# ARG BUILD_FROM musi być przed pierwszym FROM – Docker multi-stage wymóg
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:latest
+
 FROM python:3.11-slim AS build
 
 # Instalacja zależności systemowych
@@ -51,7 +54,6 @@ RUN python3 export.py \
 RUN mv "yolov9-${MODEL_SIZE}.onnx" "yolov9-${MODEL_SIZE}-${IMG_SIZE}.onnx"
 
 # --- Etap końcowy: obraz bazowy HA (zawiera bashio i with-contenv) ---
-ARG BUILD_FROM
 FROM ${BUILD_FROM}
 
 ARG MODEL_SIZE=c
