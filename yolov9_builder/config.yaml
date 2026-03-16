@@ -1,0 +1,22 @@
+---
+name: YOLOv9 Builder (640×640)
+version: "1.0.0"
+slug: yolov9_builder
+description: >
+  Jednorazowe narzędzie do eksportu modelu YOLOv9-c 640×640 do formatu ONNX.
+  Zapisuje model do /config/model_cache/yolov9-c-640.onnx dla Frigate NVR.
+  Uruchom raz, następnie zatrzymaj add-on.
+url: https://github.com/m-rodak/elFrigate
+arch:
+  - aarch64
+  - amd64
+init: false
+map:
+  - config:rw
+startup: once
+options:
+  model_size: "c"
+  image_size: 640
+schema:
+  model_size: list(t|s|c|m|e)
+  image_size: list(320|416|640|1280)

@@ -1,0 +1,31 @@
+# .gitignore dla elFrigate
+
+# Model ONNX (duże pliki – dodaj przez Git LFS jeśli potrzebujesz)
+*.onnx
+*.pt
+*.weights
+
+# Frigate config z hasłami (użytkownik tworzy lokalnie)
+frigate/frigate_config/config.local.yml
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Logi
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db

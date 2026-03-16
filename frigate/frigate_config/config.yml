@@ -1,0 +1,112 @@
+# =============================================================================
+# Frigate NVR – Konfiguracja z YOLOv9-c 640×640 ONNX
+# =============================================================================
+# Ten plik jest SZABLONEM. Przy pierwszym uruchomieniu add-ona zostanie
+# skopiowany do /config/frigate/config.yml z podmienionymi zmiennymi MQTT.
+#
+# Dodaj swoje kamery w sekcji "cameras:" poniżej.
+# Dokumentacja: https://docs.frigate.video/configuration/
+# =============================================================================
+
+# ─── MQTT ────────────────────────────────────────────────────────────────────
+mqtt:
+  host: "{mqtt_host}"
+  port: {mqtt_port}
+  # mqtt_user_placeholder
+  # mqtt_pass_placeholder
+  topic_prefix: frigate
+  client_id: frigate
+  stats_interval: 60
+
+# ─── Detektor YOLOv9 ONNX ────────────────────────────────────────────────────
+detectors:
+  yolov9:
+    type: onnx
+    path: /config/model_cache/yolov9-c-640.onnx
+    model_type: yolo-generic
+    width: 640
+    height: 640
+    input_tensor: nchw
+    input_dtype: float
+    # device: cpu       # domyślnie CPU
+    # device: cuda:0    # Nvidia GPU
+    # device: openvino  # Intel CPU/GPU
+    labelmap_path: /config/model_cache/labelmap.txt
+
+# ─── Model (globalne ustawienia) ─────────────────────────────────────────────
+model:
+  width: 640
+  height: 640
+  input_tensor: nchw
+  input_pixel_format: rgb
+  model_type: yolo-generic
+
+# ─── Nagrania ────────────────────────────────────────────────────────────────
+record:
+  enabled: true
+  retain:
+    days: 7
+    mode: motion
+  events:
+    retain:
+      default: 10
+      mode: active_objects
+
+# ─── Snapshoty ───────────────────────────────────────────────────────────────
+snapshots:
+  enabled: true
+  retain:
+    default: 14
+
+# ─── Wykrywane obiekty (domyślnie) ───────────────────────────────────────────
+# Możesz nadpisać per-kamera
+objects:
+  track:
+    - person
+    - car
+    - bicycle
+    - motorcycle
+    - truck
+    - dog
+    - cat
+  filters:
+    person:
+      min_area: 3000
+      min_score: 0.5
+      threshold: 0.6
+    car:
+      min_area: 5000
+      min_score: 0.4
+
+# ─── Kamery ──────────────────────────────────────────────────────────────────
+# UZUPEŁNIJ: Dodaj tutaj swoje kamery RTSP/RTMP/HTTP
+# Przykład:
+# cameras:
+#   podworko:
+#     ffmpeg:
+#       inputs:
+#         - path: rtsp://admin:password@192.168.1.100:554/stream1
+#           roles:
+#             - detect
+#             - record
+#     detect:
+#       width: 1280
+#       height: 720
+#       fps: 5
+cameras: {}
+
+# ─── UI Frigate ──────────────────────────────────────────────────────────────
+ui:
+  live_mode: mse
+  timezone: Europe/Warsaw
+  time_format: browser
+  date_style: short
+  time_style: medium
+  strftime_fmt: "%Y-%m-%d %H:%M"
+
+# ─── Logger ──────────────────────────────────────────────────────────────────
+logger:
+  default: info
+  logs:
+    frigate.record: warning
+    frigate.detectors.plugins.onnx: info
