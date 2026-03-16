@@ -5,7 +5,7 @@ set -e
 MODEL_SIZE=$(bashio::config 'model_size')
 IMAGE_SIZE=$(bashio::config 'image_size')
 ONNX_FILE="yolov9-${MODEL_SIZE}-${IMAGE_SIZE}.onnx"
-DEST="/share/yolov9/${ONNX_FILE}"
+DEST="/config/model_cache/${ONNX_FILE}"
 PYTHON="/opt/yolov9_venv/bin/python3"
 
 bashio::log.info "================================================"
@@ -15,7 +15,7 @@ bashio::log.info " Rozmiar: ${IMAGE_SIZE}×${IMAGE_SIZE}"
 bashio::log.info " Output : ${DEST}"
 bashio::log.info "================================================"
 
-mkdir -p /share/yolov9
+mkdir -p /config/model_cache
 
 # ─── Sprawdź czy model już istnieje ──────────────────────
 if [ -f "${DEST}" ]; then
@@ -46,8 +46,8 @@ else
 fi
 
 # ─── Labelmap COCO ────────────────────────────────────────
-if [ ! -f "/share/yolov9/labelmap.txt" ]; then
-    cp /tmp/labelmap.txt /share/yolov9/labelmap.txt
+if [ ! -f "/config/model_cache/labelmap.txt" ]; then
+    cp /tmp/labelmap.txt /config/model_cache/labelmap.txt
     bashio::log.info "✓ Labelmap COCO skopiowany."
 fi
 
@@ -56,4 +56,5 @@ bashio::log.info "================================================"
 bashio::log.info " Gotowe!"
 bashio::log.info " 1. Zatrzymaj ten add-on"
 bashio::log.info " 2. Uruchom Frigate NVR (elFrigate)"
+bashio::log.info " Model: /config/model_cache/${ONNX_FILE}"
 bashio::log.info "================================================"

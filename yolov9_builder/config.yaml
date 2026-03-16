@@ -1,6 +1,6 @@
 ---
 name: YOLOv9 Builder
-version: "1.0.9"
+version: "1.0.10"
 slug: yolov9_builder
 description: >
   Eksportuje model YOLOv9 do formatu ONNX i zapisuje do /share/yolov9/
@@ -11,6 +11,7 @@ arch:
   - aarch64
 init: false
 map:
+  - config:rw
   - share:rw
 startup: once
 options:
