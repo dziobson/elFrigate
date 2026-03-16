@@ -36,6 +36,7 @@ RUN sed -i \
     "s/ckpt = torch.load(attempt_download(w), map_location='cpu')/ckpt = torch.load(attempt_download(w), map_location='cpu', weights_only=False)/g" \
     /yolov9/models/experimental.py
 
+COPY labelmap.txt /tmp/labelmap.txt
 COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
