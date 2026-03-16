@@ -12,9 +12,7 @@ MQTT_PASSWORD=$(bashio::config 'mqtt_password')
 
 # ─── Przygotowanie katalogów ──────────────────────────────────────────────────
 mkdir -p /config/frigate
-mkdir -p /config/model_cache
-mkdir -p /media/frigate/clips
-mkdir -p /media/frigate/recordings
+mkdir -p /share/yolov9
 
 # ─── Konfiguracja Frigate ─────────────────────────────────────────────────────
 FRIGATE_CONFIG="/config/frigate/config.yml"
@@ -33,14 +31,14 @@ else
     bashio::log.info "Używam istniejącej konfiguracji: ${FRIGATE_CONFIG}"
 fi
 
-# ─── Skopiuj labelmap jeśli brak w model_cache ────────────────────────────────
-if [ ! -f "/config/model_cache/labelmap.txt" ]; then
-    bashio::log.info "Kopiuję labelmap COCO do /config/model_cache/"
-    cp /tmp/labelmap.txt /config/model_cache/labelmap.txt
+# ─── Skopiuj labelmap jeśli brak w /share/yolov9/ ────────────────────────────
+if [ ! -f "/share/yolov9/labelmap.txt" ]; then
+    bashio::log.info "Kopiuję labelmap COCO do /share/yolov9/"
+    cp /tmp/labelmap.txt /share/yolov9/labelmap.txt
 fi
 
 # ─── Sprawdź czy model ONNX istnieje ──────────────────────────────────────────
-MODEL_PATH="/config/model_cache/yolov9-c-640.onnx"
+MODEL_PATH="/share/yolov9/yolov9-c-640.onnx"
 if [ ! -f "${MODEL_PATH}" ]; then
     bashio::log.warning "Model ONNX nie znaleziony w ${MODEL_PATH}"
     bashio::log.warning "Uruchom add-on 'YOLOv9 Builder' aby wygenerować model."

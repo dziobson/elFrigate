@@ -22,7 +22,7 @@ mqtt:
 detectors:
   yolov9:
     type: onnx
-    path: /config/model_cache/yolov9-c-640.onnx
+    path: /share/yolov9/yolov9-c-640.onnx
     model_type: yolo-generic
     width: 640
     height: 640
@@ -31,7 +31,7 @@ detectors:
     # device: cpu       # domyślnie CPU
     # device: cuda:0    # Nvidia GPU
     # device: openvino  # Intel CPU/GPU
-    labelmap_path: /config/model_cache/labelmap.txt
+    labelmap_path: /share/yolov9/labelmap.txt
 
 # ─── Model (globalne ustawienia) ─────────────────────────────────────────────
 model:
