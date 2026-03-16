@@ -50,15 +50,15 @@ RUN python3 export.py \
 # Zmień nazwę do standardowej (yolov9-c-640.onnx)
 RUN mv "yolov9-${MODEL_SIZE}.onnx" "yolov9-${MODEL_SIZE}-${IMG_SIZE}.onnx"
 
-# --- Etap końcowy: tylko skrypt kopiujący ---
-FROM alpine:3.18
+# --- Etap końcowy: obraz bazowy HA (zawiera bashio i with-contenv) ---
+ARG BUILD_FROM
+FROM ${BUILD_FROM}
 
-WORKDIR /output
 ARG MODEL_SIZE=c
 ARG IMG_SIZE=640
 
-COPY --from=build /yolov9/yolov9-${MODEL_SIZE}-${IMG_SIZE}.onnx ./yolov9-${MODEL_SIZE}-${IMG_SIZE}.onnx
+COPY --from=build /yolov9/yolov9-${MODEL_SIZE}-${IMG_SIZE}.onnx /model/yolov9-${MODEL_SIZE}-${IMG_SIZE}.onnx
 COPY run.sh /run.sh
-RUN chmod +x /run.sh
+RUN chmod a+x /run.sh
 
 CMD ["/run.sh"]

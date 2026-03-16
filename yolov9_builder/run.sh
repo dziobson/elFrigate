@@ -19,7 +19,7 @@ if [ -f "${DEST}" ]; then
     bashio::log.info "Usuń plik jeśli chcesz wygenerować ponownie."
 else
     bashio::log.info "Kopiuję model do /config/model_cache/..."
-    cp "/output/${OUTPUT_FILE}" "${DEST}"
+    cp "/model/${OUTPUT_FILE}" "${DEST}"
     bashio::log.info "✓ Model zapisany: ${DEST}"
     bashio::log.info "Rozmiar: $(du -sh ${DEST} | cut -f1)"
 fi
