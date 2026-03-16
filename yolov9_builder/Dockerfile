@@ -23,10 +23,8 @@ RUN python3 -m venv /opt/yolov9_venv
 RUN /opt/yolov9_venv/bin/pip install --no-cache-dir \
     torch torchvision --index-url https://download.pytorch.org/whl/cpu
 RUN /opt/yolov9_venv/bin/pip install --no-cache-dir \
-    onnx==1.18.0 \
-    onnxruntime \
-    "onnx-simplifier==0.4.*" \
-    onnxscript
+    onnx \
+    onnxruntime
 
 # Klonuj YOLOv9 i zainstaluj jego zależności
 RUN git clone --depth=1 https://github.com/WongKinYiu/yolov9.git /yolov9

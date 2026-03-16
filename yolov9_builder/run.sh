@@ -38,7 +38,6 @@ else
     ${PYTHON} export.py \
         --weights "${WEIGHTS}" \
         --imgsz "${IMAGE_SIZE}" \
-        --simplify \
         --include onnx
 
     # Przenieś do /share/yolov9/
